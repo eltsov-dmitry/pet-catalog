@@ -12,11 +12,11 @@ const isProduction = process.env.NODE_ENV === "production";
 const stylesHandler = MiniCssExtractPlugin.loader;
 
 /** @type {import("webpack").Configuration} */
-const config : Configuration = {
-    entry: "./src/index.ts",
+const config: Configuration = {
+    entry: "./src/index.tsx",
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "[name].[contenthash].js", 
+        filename: "[name].[contenthash].js",
         clean: true,
     },
     devServer: {
@@ -28,9 +28,7 @@ const config : Configuration = {
         }),
         new MiniCssExtractPlugin(),
         new CopyPlugin({
-            patterns: [
-                { from: "public", to: "." }, 
-            ],
+            patterns: [{ from: "public", to: "." }],
         }),
     ],
     module: {
