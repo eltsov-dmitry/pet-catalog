@@ -43,6 +43,7 @@
     "copy-webpack-plugin": "^14.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "react-intersection-observer": "^10.0.3",
     "react-redux": "^9.3.0",
     "react-router": "^8.0.1",
     "tailwindcss": "^4.3.1"
