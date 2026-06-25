@@ -17,7 +17,12 @@ const config: Configuration = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
+        publicPath: '/',
         clean: true,
+    },
+    devServer: {
+        // SPA-fallback: любой маршрут отдаёт index.html, клиентский роутер разруливает дальше
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({

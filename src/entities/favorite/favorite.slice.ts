@@ -1,13 +1,9 @@
 import type { RootState } from '@/application/store';
+import type { Product } from '@/shared/api/products';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export interface FavoriteItem {
-    id: number;
-    name: string;
-}
-
 interface FavoriteState {
-    items: FavoriteItem[];
+    items: Product[];
 }
 
 const initialState: FavoriteState = {
@@ -18,7 +14,7 @@ const favoriteSlice = createSlice({
     name: 'favorite',
     initialState,
     reducers: {
-        addToFavorite: (state, action: PayloadAction<FavoriteItem>) => {
+        addToFavorite: (state, action: PayloadAction<Product>) => {
             state.items.push(action.payload);
         },
         removeById: (state, action: PayloadAction<number>) => {
