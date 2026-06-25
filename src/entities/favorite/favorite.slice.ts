@@ -1,13 +1,14 @@
 import type { RootState } from '@/application/store';
 import type { Product } from '@/shared/api/products';
+import { createActionsHook } from '@/shared/lib/store';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface FavoriteState {
-    items: Product[];
+    favoriteItems: Product[];
 }
 
 const initialState: FavoriteState = {
-    items: [],
+    favoriteItems: [],
 };
 
 const favoriteSlice = createSlice({
@@ -15,15 +16,18 @@ const favoriteSlice = createSlice({
     initialState,
     reducers: {
         addToFavorite: (state, action: PayloadAction<Product>) => {
-            state.items.push(action.payload);
+            state.favoriteItems.push(action.payload);
         },
         removeById: (state, action: PayloadAction<number>) => {
-            state.items = state.items.filter(({ id }) => id !== action.payload);
+            state.favoriteItems = state.favoriteItems.filter(
+                ({ id }) => id !== action.payload,
+            );
         },
     },
 });
 
-export const { addToFavorite, removeById } = favoriteSlice.actions;
 export const favoriteReducer = favoriteSlice.reducer;
+export const useFavoriteActions = createActionsHook(favoriteSlice.actions);
 
-export const favoriteItems = (state: RootState) => state.favorite.items;
+export const selectFavoriteItems = (state: RootState) =>
+    state.favorite.favoriteItems;

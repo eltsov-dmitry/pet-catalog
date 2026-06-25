@@ -1,1 +1,2 @@
-export * from './favorite.slice';
+export { favoriteReducer } from './favorite.slice';
+export { useFavoriteStore } from './use-favorite.store';

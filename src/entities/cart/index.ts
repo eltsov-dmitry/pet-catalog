@@ -1,1 +1,2 @@
-export * from './cart.slice';
+export { cartReducer } from './cart.slice';
+export { useCartStore } from './use-cart.store';

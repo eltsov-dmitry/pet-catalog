@@ -1,7 +1,7 @@
-import { addToCart } from '@/entities/cart';
+import { useCartStore } from '@/entities/cart';
+import { useFavoriteStore } from '@/entities/favorite';
 import { useGetProductsAllInfiniteQuery } from '@/shared/api/products';
 import { useDebouncedValue } from '@/shared/lib/hooks';
-import { useAppDispatch } from '@/shared/lib/store';
 import { Spacing } from '@/shared/ui';
 import { InfiniteScroll, ProductCard } from '@/shared/ui/molecules';
 import { CircularProgress, TextField, Typography } from '@mui/material';
@@ -9,7 +9,8 @@ import { IconInfoCircle, IconSearch } from '@tabler/icons-react';
 import { useState, type FC } from 'react';
 
 export const HomePage: FC = () => {
-    const dispatch = useAppDispatch();
+    const { addToCart } = useCartStore();
+    const { checkFavorite, addToFavorite, removeById } = useFavoriteStore();
 
     const [search, setSearch] = useState('');
     const debouncedValue = useDebouncedValue(search);
@@ -61,13 +62,22 @@ export const HomePage: FC = () => {
             {products.length > 0 ? (
                 <>
                     <div className="grid grid-cols-3 gap-4">
-                        {products.map((product) => (
-                            <ProductCard
-                                key={product.id}
-                                product={product}
-                                onAddCart={() => dispatch(addToCart(product))}
-                            />
-                        ))}
+                        {products.map((product) => {
+                            const isFavorite = checkFavorite(product.id);
+                            const onAdd = () => addToFavorite(product);
+                            const onRemove = () => removeById(product.id);
+                            return (
+                                <ProductCard
+                                    key={product.id}
+                                    product={product}
+                                    onAddCart={() => addToCart(product)}
+                                    onToggleFavorite={
+                                        isFavorite ? onRemove : onAdd
+                                    }
+                                    isFavorite={isFavorite}
+                                />
+                            );
+                        })}
                     </div>
                     <InfiniteScroll
                         hasNextPage={hasNextPage}

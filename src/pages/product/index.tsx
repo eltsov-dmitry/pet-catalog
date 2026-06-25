@@ -1,6 +1,5 @@
-import { addToCart } from '@/entities/cart';
+import { useCartStore } from '@/entities/cart';
 import { useGetProductsSingleQuery } from '@/shared/api/products';
-import { useAppDispatch } from '@/shared/lib/store';
 import { Spacing } from '@/shared/ui';
 import { Button, CircularProgress, Typography } from '@mui/material';
 import { IconInfoCircle, IconPlus } from '@tabler/icons-react';
@@ -8,8 +7,8 @@ import { type FC } from 'react';
 import { useParams } from 'react-router';
 
 export const ProductPage: FC = () => {
+    const { addToCart } = useCartStore();
     const params = useParams<'id'>();
-    const dispatch = useAppDispatch();
     const { isLoading, data, isError } = useGetProductsSingleQuery(
         Number(params.id),
     );
@@ -48,7 +47,7 @@ export const ProductPage: FC = () => {
                 <Button
                     variant="contained"
                     startIcon={<IconPlus size={18} />}
-                    onClick={() => dispatch(addToCart(data))}
+                    onClick={() => addToCart(data)}
                 >
                     Добавить в корзину
                 </Button>

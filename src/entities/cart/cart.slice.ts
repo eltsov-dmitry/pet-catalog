@@ -1,27 +1,30 @@
 import type { RootState } from '@/application/store';
 import type { Product } from '@/shared/api/products';
+import { createActionsHook } from '@/shared/lib/store';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface CartState {
-    items: Product[];
+    cartItems: Product[];
 }
 
-const initialState: CartState = { items: [] };
+const initialState: CartState = { cartItems: [] };
 
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
         addToCart: (state, action: PayloadAction<Product>) => {
-            state.items.push(action.payload);
+            state.cartItems.push(action.payload);
         },
         removeFromCartById: (state, action: PayloadAction<number>) => {
-            state.items = state.items.filter(({ id }) => id !== action.payload);
+            state.cartItems = state.cartItems.filter(
+                ({ id }) => id !== action.payload,
+            );
         },
     },
 });
 
-export const { addToCart, removeFromCartById } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
+export const useCartActions = createActionsHook(cartSlice.actions);
 
-export const cartItems = (state: RootState) => state.cart.items;
+export const selectCartItems = (state: RootState) => state.cart.cartItems;
