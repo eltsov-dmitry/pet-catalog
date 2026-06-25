@@ -10,7 +10,8 @@ import { useState, type FC } from 'react';
 
 export const HomePage: FC = () => {
     const { addToCart } = useCartStore();
-    const { checkFavorite, addToFavorite, removeById } = useFavoriteStore();
+    const { checkFavorite, addToFavorite, removeFromFavoriteById } =
+        useFavoriteStore();
 
     const [search, setSearch] = useState('');
     const debouncedValue = useDebouncedValue(search);
@@ -65,7 +66,8 @@ export const HomePage: FC = () => {
                         {products.map((product) => {
                             const isFavorite = checkFavorite(product.id);
                             const onAdd = () => addToFavorite(product);
-                            const onRemove = () => removeById(product.id);
+                            const onRemove = () =>
+                                removeFromFavoriteById(product.id);
                             return (
                                 <ProductCard
                                     key={product.id}

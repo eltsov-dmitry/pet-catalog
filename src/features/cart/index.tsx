@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { useCartStore } from '@/entities/cart';
 import { IconButton, Typography } from '@mui/material';
 import { IconTrash } from '@tabler/icons-react';
+import { Link } from 'react-router';
 
 export const Cart: FC = () => {
     const { cartItems, removeFromCartById } = useCartStore();
@@ -13,7 +14,10 @@ export const Cart: FC = () => {
     return (
         <div className="flex flex-col gap-2">
             {cartItems.map((item) => (
-                <div key={item.id} className="p-2 flex gap-2 items-center">
+                <div
+                    key={item.id}
+                    className="relative p-2 flex gap-2 items-center"
+                >
                     <img
                         width={32}
                         height={32}
@@ -24,9 +28,16 @@ export const Cart: FC = () => {
                         {item.title}
                     </Typography>
                     <Typography variant="caption">{item.price}</Typography>
-                    <IconButton onClick={() => removeFromCartById(item.id)}>
+                    <IconButton
+                        className="relative z-10"
+                        onClick={() => removeFromCartById(item.id)}
+                    >
                         <IconTrash size={18} />
                     </IconButton>
+                    <Link
+                        to={`/product/${item.id}`}
+                        className="absolute top-0 left-0 w-full h-full"
+                    />
                 </div>
             ))}
         </div>

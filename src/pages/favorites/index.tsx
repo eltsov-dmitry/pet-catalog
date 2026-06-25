@@ -2,9 +2,10 @@ import { useFavoriteStore } from '@/entities/favorite';
 import { IconButton, Typography } from '@mui/material';
 import { IconHeartCancel, IconInfoCircle } from '@tabler/icons-react';
 import { type FC } from 'react';
+import { Link } from 'react-router';
 
 export const FavoritesPage: FC = () => {
-    const { favoriteItems, removeById } = useFavoriteStore();
+    const { favoriteItems, removeFromFavoriteById } = useFavoriteStore();
 
     if (favoriteItems.length === 0) {
         return (
@@ -22,7 +23,7 @@ export const FavoritesPage: FC = () => {
             {favoriteItems.map((favorite) => (
                 <div
                     key={favorite.id}
-                    className="flex gap-4 border-[0.5px] items-center rounded-[8px]"
+                    className="relative flex gap-4 border-[0.5px] items-center rounded-[8px] px-4"
                 >
                     <img
                         src={favorite.images[0]}
@@ -32,11 +33,15 @@ export const FavoritesPage: FC = () => {
                     />
                     <Typography className="flex-1">{favorite.title}</Typography>
                     <IconButton
-                        className="w-[48px]"
-                        onClick={() => removeById(favorite.id)}
+                        className="relative z-10"
+                        onClick={() => removeFromFavoriteById(favorite.id)}
                     >
                         <IconHeartCancel size={18} />
                     </IconButton>
+                    <Link
+                        to={`/product/${favorite.id}`}
+                        className="absolute top-0 left-0 w-full h-full"
+                    />
                 </div>
             ))}
         </div>

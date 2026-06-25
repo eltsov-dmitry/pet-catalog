@@ -2,10 +2,7 @@ import type { RootState } from '@/application/store';
 import type { Product } from '@/shared/api/products';
 import { createActionsHook } from '@/shared/lib/store';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-interface CartState {
-    cartItems: Product[];
-}
+import type { CartState } from './cart.types';
 
 const initialState: CartState = { cartItems: [] };
 
@@ -24,6 +21,7 @@ const cartSlice = createSlice({
     },
 });
 
+export const cartActions = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
 export const useCartActions = createActionsHook(cartSlice.actions);
 
