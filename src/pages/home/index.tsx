@@ -4,11 +4,12 @@ import { StateView } from '@/shared/ui/molecules';
 import { CircularProgress } from '@mui/material';
 import { type FC } from 'react';
 import { HomePageFilters, HomePageList } from './ui';
-import { useProductFilters } from './libs/hooks';
+import { useFiltersStore } from '@/entities/filters';
+import { useDebouncedValue } from '@/shared/lib/hooks';
 
 export const HomePage: FC = () => {
-    const { category, search, changeCategory, changeSearch, searchDebounced } =
-        useProductFilters();
+    const { search, category } = useFiltersStore();
+    const searchDebounced = useDebouncedValue(search);
 
     const {
         isLoading,
@@ -38,12 +39,7 @@ export const HomePage: FC = () => {
 
     return (
         <div className="flex-1 flex flex-col">
-            <HomePageFilters
-                category={category}
-                search={search}
-                onChangeCategory={changeCategory}
-                onChangeSearch={changeSearch}
-            />
+            <HomePageFilters />
             <Spacing spacing={4} />
             <HomePageList
                 products={products}

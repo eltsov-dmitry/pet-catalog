@@ -1,31 +1,21 @@
+import { useFiltersStore } from '@/entities/filters';
 import { useGetProductsCategoryListQuery } from '@/shared/api/products';
 import { Spacing } from '@/shared/ui';
 import { Chip, TextField } from '@mui/material';
 import { IconSearch } from '@tabler/icons-react';
 import { type FC } from 'react';
 
-interface HomePageFiltersProps {
-    search: string;
-    category: string;
-    onChangeCategory: (val: string) => void;
-    onChangeSearch: (val: string) => void;
-}
-
-export const HomePageFilters: FC<HomePageFiltersProps> = ({
-    search,
-    category,
-    onChangeCategory,
-    onChangeSearch,
-}) => {
+export const HomePageFilters: FC = () => {
+    const { search, setSearch, category, setCategory } = useFiltersStore();
     const { data: categories } = useGetProductsCategoryListQuery();
 
-    const onCleanCategory = () => onChangeCategory('');
+    const resetCategory = () => setCategory('');
 
     return (
         <div>
             <TextField
                 value={search}
-                onChange={(val) => onChangeSearch(val.target.value)}
+                onChange={(val) => setSearch(val.target.value)}
                 className="w-full"
                 slotProps={{
                     input: {
@@ -39,10 +29,10 @@ export const HomePageFilters: FC<HomePageFiltersProps> = ({
                     <Chip
                         key={categoryItem}
                         label={categoryItem}
-                        onClick={() => onChangeCategory(categoryItem)}
+                        onClick={() => setCategory(categoryItem)}
                         onDelete={
                             category === categoryItem
-                                ? onCleanCategory
+                                ? resetCategory
                                 : undefined
                         }
                     />
