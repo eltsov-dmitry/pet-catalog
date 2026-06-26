@@ -26,6 +26,7 @@ export const HomePageFilters: FC<HomePageFiltersProps> = ({
             <TextField
                 value={search}
                 onChange={(val) => onChangeSearch(val.target.value)}
+                className="w-full"
                 slotProps={{
                     input: {
                         startAdornment: <IconSearch className="mr-4" />,

@@ -1,10 +1,26 @@
 import { Cart } from '@/features/cart';
-import { Button, Grow, IconButton, Paper, Popper } from '@mui/material';
-import { IconGardenCart, IconHeart } from '@tabler/icons-react';
+import {
+    Button,
+    Grow,
+    IconButton,
+    Paper,
+    Popper,
+    ToggleButton,
+    ToggleButtonGroup,
+    useColorScheme,
+} from '@mui/material';
+import {
+    IconGardenCart,
+    IconHeart,
+    IconMoonFilled,
+    IconSunHighFilled,
+} from '@tabler/icons-react';
 import { useRef, useState, type FC } from 'react';
 import { Link } from 'react-router';
 
 export const HeaderWidget: FC = () => {
+    const { setMode, colorScheme } = useColorScheme();
+
     const [openCart, setOpenCart] = useState(false);
     const cartButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -55,6 +71,20 @@ export const HeaderWidget: FC = () => {
                             </Grow>
                         )}
                     </Popper>
+                    <ToggleButtonGroup
+                        value={colorScheme}
+                        exclusive
+                        onChange={(_e, value) => setMode(value)}
+                        aria-label="color-mode"
+                        size="small"
+                    >
+                        <ToggleButton value="dark" aria-label="dark">
+                            <IconMoonFilled />
+                        </ToggleButton>
+                        <ToggleButton value="light" aria-label="light">
+                            <IconSunHighFilled />
+                        </ToggleButton>
+                    </ToggleButtonGroup>
                 </div>
             </div>
         </header>

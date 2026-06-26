@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { type Configuration } from 'webpack';
+import webpack, { type Configuration } from 'webpack';
 import 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -9,26 +9,33 @@ import CopyPlugin from 'copy-webpack-plugin';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const isProduction = process.env.NODE_ENV === 'production';
-const stylesHandler = MiniCssExtractPlugin.loader;
+const { EnvironmentPlugin } = webpack;
+
+const stylesHandler = isProduction
+    ? MiniCssExtractPlugin.loader
+    : 'style-loader';
 
 /** @type {import("webpack").Configuration} */
 const config: Configuration = {
     entry: './src/index.tsx',
+    devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[contenthash].js',
+        filename: isProduction ? '[name].[contenthash].js' : '[name].js',
         publicPath: '/',
         clean: true,
     },
     devServer: {
-        // SPA-fallback: любой маршрут отдаёт index.html, клиентский роутер разруливает дальше
         historyApiFallback: true,
     },
     plugins: [
+        new EnvironmentPlugin({
+            API_URL: 'https://dummyjson.com',
+        }),
         new HtmlWebpackPlugin({
             template: 'index.html',
         }),
-        new MiniCssExtractPlugin(),
+        ...(isProduction ? [new MiniCssExtractPlugin()] : []),
         new CopyPlugin({
             patterns: [{ from: 'public', to: '.' }],
         }),
@@ -38,7 +45,7 @@ const config: Configuration = {
             {
                 test: /\.(ts|tsx)$/i,
                 loader: 'ts-loader',
-                exclude: ['/node_modules/'],
+                exclude: /node_modules/,
             },
             {
                 test: /\.css$/i,

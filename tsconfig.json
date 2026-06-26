@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "rewriteRelativeImportExtensions": true,
     "jsx": "react-jsx",
+    "types": ["node"],
     "paths": {
         "@/*": ["./src/*"]
     }
