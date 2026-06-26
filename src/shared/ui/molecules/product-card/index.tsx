@@ -20,7 +20,14 @@ export const ProductCard: FC<ProductCardProps> = ({
 }) => {
     return (
         <div className="p-4 border rounded-[8px] relative">
-            <img src={product.images[0]} />
+            <div className="aspect-square">
+                <img
+                    width="100%"
+                    height="100%"
+                    className="object-cover"
+                    src={product.images[0]}
+                />
+            </div>
             <Typography variant="body1">{product.title}</Typography>
             <Spacing spacing={1} />
             <Typography variant="body2" color="textDisabled">

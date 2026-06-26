@@ -1,20 +1,14 @@
-import { useCartStore } from '@/entities/cart';
-import { useFavoriteStore } from '@/entities/favorite';
-import { useGetProductsAllInfiniteQuery } from '@/shared/api/products';
-import { useDebouncedValue } from '@/shared/lib/hooks';
+import { useGetProductsListInfiniteQuery } from '@/shared/api/products';
 import { Spacing } from '@/shared/ui';
-import { InfiniteScroll, ProductCard } from '@/shared/ui/molecules';
-import { CircularProgress, TextField, Typography } from '@mui/material';
-import { IconInfoCircle, IconSearch } from '@tabler/icons-react';
-import { useState, type FC } from 'react';
+import { StateView } from '@/shared/ui/molecules';
+import { CircularProgress } from '@mui/material';
+import { type FC } from 'react';
+import { HomePageFilters, HomePageList } from './ui';
+import { useProductFilters } from './libs/hooks';
 
 export const HomePage: FC = () => {
-    const { addToCart } = useCartStore();
-    const { checkFavorite, addToFavorite, removeFromFavoriteById } =
-        useFavoriteStore();
-
-    const [search, setSearch] = useState('');
-    const debouncedValue = useDebouncedValue(search);
+    const { category, search, changeCategory, changeSearch, searchDebounced } =
+        useProductFilters();
 
     const {
         isLoading,
@@ -23,7 +17,8 @@ export const HomePage: FC = () => {
         hasNextPage,
         fetchNextPage,
         isFetching,
-    } = useGetProductsAllInfiniteQuery(debouncedValue);
+        isFetchingNextPage,
+    } = useGetProductsListInfiniteQuery({ search: searchDebounced, category });
 
     if (isLoading) {
         return (
@@ -36,62 +31,26 @@ export const HomePage: FC = () => {
     if (isError) {
         return (
             <div className="flex-1 flex flex-col justify-center items-center">
-                <div className="flex flex-col gap-1 justify-center items-center">
-                    <IconInfoCircle size={48} />
-                    <Typography variant="h4">Что-то пошло не так</Typography>
-                </div>
+                <StateView title="Что-то пошло не так" />
             </div>
         );
     }
 
     return (
         <div className="flex-1 flex flex-col">
-            <TextField
-                value={search}
-                onChange={(val) => setSearch(val.target.value)}
-                slotProps={{
-                    input: {
-                        startAdornment: <IconSearch className="mr-4" />,
-                        endAdornment:
-                            search && isFetching ? (
-                                <CircularProgress size={18} />
-                            ) : null,
-                    },
-                }}
+            <HomePageFilters
+                category={category}
+                search={search}
+                onChangeCategory={changeCategory}
+                onChangeSearch={changeSearch}
             />
             <Spacing spacing={4} />
-            {products.length > 0 ? (
-                <>
-                    <div className="grid grid-cols-3 gap-4">
-                        {products.map((product) => {
-                            const isFavorite = checkFavorite(product.id);
-                            const onAdd = () => addToFavorite(product);
-                            const onRemove = () =>
-                                removeFromFavoriteById(product.id);
-                            return (
-                                <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                    onAddCart={() => addToCart(product)}
-                                    onToggleFavorite={
-                                        isFavorite ? onRemove : onAdd
-                                    }
-                                    isFavorite={isFavorite}
-                                />
-                            );
-                        })}
-                    </div>
-                    <InfiniteScroll
-                        hasNextPage={hasNextPage}
-                        fetchNextPage={fetchNextPage}
-                    />
-                </>
-            ) : (
-                <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                    <IconInfoCircle size={48} />
-                    <Typography variant="h4">Список пуст</Typography>
-                </div>
-            )}
+            <HomePageList
+                products={products}
+                isFetching={isFetching && !isFetchingNextPage}
+                fetchNextPage={fetchNextPage}
+                hasNextPage={hasNextPage}
+            />
         </div>
     );
 };
