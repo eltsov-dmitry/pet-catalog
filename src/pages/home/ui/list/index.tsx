@@ -1,5 +1,6 @@
 import { useCartStore } from '@/entities/cart';
 import { useFavoriteStore } from '@/entities/favorite';
+import { useUiStore } from '@/entities/ui';
 import type { Product } from '@/shared/api/products';
 import { InfiniteScroll, ProductCard, StateView } from '@/shared/ui/molecules';
 import { CircularProgress } from '@mui/material';
@@ -18,6 +19,7 @@ export const HomePageList: FC<HomePageListProps> = ({
     hasNextPage,
     fetchNextPage,
 }) => {
+    const { view } = useUiStore();
     const { addToCart } = useCartStore();
     const { checkFavorite, addToFavorite, removeFromFavoriteById } =
         useFavoriteStore();
@@ -28,7 +30,7 @@ export const HomePageList: FC<HomePageListProps> = ({
 
     if (isFetching) {
         return (
-            <div className="flex flex-1 flex-col  justify-center items-center">
+            <div className="flex flex-1 flex-col justify-center items-center">
                 <CircularProgress />
             </div>
         );
@@ -36,7 +38,12 @@ export const HomePageList: FC<HomePageListProps> = ({
 
     return (
         <div>
-            <div className="grid grid-cols-3 gap-4">
+            <div
+                className="grid gap-4"
+                style={{
+                    gridTemplateColumns: `repeat(${view === 'grid' ? 3 : 1}, minmax(0, 1fr))`,
+                }}
+            >
                 {products.map((product) => {
                     const isFavorite = checkFavorite(product.id);
                     const onAdd = () => addToFavorite(product);

@@ -1,12 +1,19 @@
-import { useFiltersStore } from '@/entities/filters';
+import { useFilters } from '@/entities/filters';
+import { useUiStore } from '@/entities/ui';
 import { useGetProductsCategoryListQuery } from '@/shared/api/products';
 import { Spacing } from '@/shared/ui';
-import { Chip, TextField } from '@mui/material';
-import { IconSearch } from '@tabler/icons-react';
+import {
+    Chip,
+    TextField,
+    ToggleButton,
+    ToggleButtonGroup,
+} from '@mui/material';
+import { IconGridDots, IconList, IconSearch } from '@tabler/icons-react';
 import { type FC } from 'react';
 
 export const HomePageFilters: FC = () => {
-    const { search, setSearch, category, setCategory } = useFiltersStore();
+    const { view, setView } = useUiStore();
+    const { search, setSearch, category, setCategory } = useFilters();
     const { data: categories } = useGetProductsCategoryListQuery();
 
     const resetCategory = () => setCategory('');
@@ -38,6 +45,21 @@ export const HomePageFilters: FC = () => {
                     />
                 ))}
             </div>
+            <Spacing spacing={2} />
+            <ToggleButtonGroup
+                value={view}
+                exclusive
+                onChange={(_e, value) => setView(value)}
+                aria-label="view-mode"
+                size="small"
+            >
+                <ToggleButton value="grid" aria-label="grid">
+                    <IconGridDots />
+                </ToggleButton>
+                <ToggleButton value="list" aria-label="list">
+                    <IconList />
+                </ToggleButton>
+            </ToggleButtonGroup>
         </div>
     );
 };

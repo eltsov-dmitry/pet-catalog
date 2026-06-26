@@ -5,12 +5,14 @@ import { baseApi } from '@/shared/api';
 import { loadCartState } from '@/entities/cart';
 import { loadFavoriteState } from '@/entities/favorite';
 import { persistListener } from './persist';
+import { loadUiState } from '@/entities/ui';
 
 export const store = configureStore({
     reducer: rootReducer,
     preloadedState: {
         cart: loadCartState(),
         favorite: loadFavoriteState(),
+        ui: loadUiState(),
     },
     middleware: (gdm) =>
         gdm().concat(baseApi.middleware, persistListener.middleware),

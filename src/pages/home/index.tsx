@@ -4,11 +4,11 @@ import { StateView } from '@/shared/ui/molecules';
 import { CircularProgress } from '@mui/material';
 import { type FC } from 'react';
 import { HomePageFilters, HomePageList } from './ui';
-import { useFiltersStore } from '@/entities/filters';
+import { useFilters } from '@/entities/filters';
 import { useDebouncedValue } from '@/shared/lib/hooks';
 
 export const HomePage: FC = () => {
-    const { search, category } = useFiltersStore();
+    const { search, category } = useFilters();
     const searchDebounced = useDebouncedValue(search);
 
     const {
