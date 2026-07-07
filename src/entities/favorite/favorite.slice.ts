@@ -12,13 +12,20 @@ const favoriteSlice = createSlice({
     name: 'favorite',
     initialState,
     reducers: {
-        addToFavorite: (state, action: PayloadAction<Product>) => {
-            state.favoriteItems.push(action.payload);
-        },
         removeFromFavoriteById: (state, action: PayloadAction<number>) => {
             state.favoriteItems = state.favoriteItems.filter(
                 ({ id }) => id !== action.payload,
             );
+        },
+        toggleFavorite: (state, action: PayloadAction<Product>) => {
+            const favoriteIndex = state.favoriteItems.findIndex(
+                ({ id }) => id === action.payload.id,
+            );
+            if (favoriteIndex === -1) {
+                state.favoriteItems.push(action.payload);
+            } else {
+                state.favoriteItems.splice(favoriteIndex, 1);
+            }
         },
     },
 });

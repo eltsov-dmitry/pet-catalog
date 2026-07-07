@@ -10,8 +10,8 @@ export const persistListener = createListenerMiddleware();
 
 persistListener.startListening({
     matcher: isAnyOf(
-        favoriteActions.addToFavorite,
         favoriteActions.removeFromFavoriteById,
+        favoriteActions.toggleFavorite,
         cartActions.addToCart,
         cartActions.removeFromCartById,
         uiActions.setView,

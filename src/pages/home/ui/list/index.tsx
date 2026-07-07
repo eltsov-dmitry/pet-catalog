@@ -21,8 +21,7 @@ export const HomePageList: FC<HomePageListProps> = ({
 }) => {
     const { view } = useUiStore();
     const { addToCart } = useCartStore();
-    const { checkFavorite, addToFavorite, removeFromFavoriteById } =
-        useFavoriteStore();
+    const { checkFavorite, toggleFavorite } = useFavoriteStore();
 
     if (products.length === 0) {
         return <StateView title="Список пуст" />;
@@ -44,20 +43,15 @@ export const HomePageList: FC<HomePageListProps> = ({
                     gridTemplateColumns: `repeat(${view === 'grid' ? 3 : 1}, minmax(0, 1fr))`,
                 }}
             >
-                {products.map((product) => {
-                    const isFavorite = checkFavorite(product.id);
-                    const onAdd = () => addToFavorite(product);
-                    const onRemove = () => removeFromFavoriteById(product.id);
-                    return (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            onAddCart={() => addToCart(product)}
-                            onToggleFavorite={isFavorite ? onRemove : onAdd}
-                            isFavorite={isFavorite}
-                        />
-                    );
-                })}
+                {products.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                        onAddCart={() => addToCart(product)}
+                        onToggleFavorite={() => toggleFavorite(product)}
+                        isFavorite={checkFavorite(product.id)}
+                    />
+                ))}
             </div>
             <InfiniteScroll
                 hasNextPage={hasNextPage}
