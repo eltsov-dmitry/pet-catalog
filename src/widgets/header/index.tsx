@@ -1,26 +1,24 @@
-import { Cart } from '@/features/cart';
-import {
-    Button,
-    Grow,
-    IconButton,
-    Paper,
-    Popper,
-    ToggleButton,
-    ToggleButtonGroup,
-    useColorScheme,
-} from '@mui/material';
+import { Button, IconButton, ToggleButton, ToggleButtonGroup, useColorScheme } from '@mui/material';
 import { IconGardenCart, IconHeart, IconMoonFilled, IconSunHighFilled } from '@tabler/icons-react';
-import { useRef, useState, type FC } from 'react';
+import { lazy, Suspense, useState, type FC, type MouseEvent } from 'react';
 import { Link } from 'react-router';
+
+const HeaderCart = lazy(() => import('./ui/header-cart'));
+
+const preloadCart = () => {
+    void import('./ui/header-cart');
+};
 
 export const HeaderWidget: FC = () => {
     const { setMode, colorScheme } = useColorScheme();
 
+    // Якорь заодно работает признаком «корзину открывали»: до первого клика попапа нет в дереве
+    const [cartAnchor, setCartAnchor] = useState<HTMLButtonElement | null>(null);
     const [openCart, setOpenCart] = useState(false);
-    const cartButtonRef = useRef<HTMLButtonElement>(null);
 
-    const handleToggle = () => {
-        setOpenCart((val) => !val);
+    const toggleCart = (event: MouseEvent<HTMLButtonElement>) => {
+        setCartAnchor(event.currentTarget);
+        setOpenCart((value) => !value);
     };
 
     return (
@@ -34,35 +32,19 @@ export const HeaderWidget: FC = () => {
                         <IconHeart />
                     </IconButton>
                     <Button
-                        ref={cartButtonRef}
                         variant="outlined"
                         startIcon={<IconGardenCart />}
-                        onClick={handleToggle}
+                        onClick={toggleCart}
+                        onMouseEnter={preloadCart}
+                        onFocus={preloadCart}
                     >
                         Корзина
                     </Button>
-                    <Popper
-                        open={openCart}
-                        anchorEl={cartButtonRef.current}
-                        role={undefined}
-                        placement="bottom-end"
-                        transition
-                        disablePortal
-                        className="z-10"
-                    >
-                        {({ TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                style={{
-                                    transformOrigin: placement === 'bottom-end' ? 'right top' : 'right bottom',
-                                }}
-                            >
-                                <Paper>
-                                    <Cart />
-                                </Paper>
-                            </Grow>
-                        )}
-                    </Popper>
+                    {cartAnchor && (
+                        <Suspense fallback={null}>
+                            <HeaderCart open={openCart} anchorEl={cartAnchor} />
+                        </Suspense>
+                    )}
                     <ToggleButtonGroup
                         value={colorScheme}
                         exclusive
