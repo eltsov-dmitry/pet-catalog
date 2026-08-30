@@ -13,6 +13,9 @@ const { EnvironmentPlugin } = webpack;
 
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
+// На Pages сайт лежит в подкаталоге. 'auto' не годится: на /product/12 путь станет /product/main.js
+const publicPath = process.env.PUBLIC_PATH ?? '/';
+
 /** @type {import("webpack").Configuration} */
 const config: Configuration = {
     entry: './src/index.tsx',
@@ -20,7 +23,7 @@ const config: Configuration = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: isProduction ? '[name].[contenthash].js' : '[name].js',
-        publicPath: '/',
+        publicPath,
         clean: true,
     },
     devServer: {
@@ -32,6 +35,7 @@ const config: Configuration = {
         }),
         new HtmlWebpackPlugin({
             template: 'index.html',
+            templateParameters: { publicPath },
         }),
         ...(isProduction ? [new MiniCssExtractPlugin()] : []),
         new CopyPlugin({
