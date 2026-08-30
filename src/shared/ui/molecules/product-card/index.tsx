@@ -1,7 +1,7 @@
 import type { Product } from '@/shared/api/products';
 import { Button, IconButton, Typography } from '@mui/material';
 import { IconHeart, IconHeartFilled, IconPlus } from '@tabler/icons-react';
-import { type FC } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { useUiStore } from '@/entities/ui';
 
@@ -10,14 +10,11 @@ interface ProductCardProps {
     product: Product;
     onAddCart: VoidFunction;
     onToggleFavorite: VoidFunction;
+    /** Слот под кнопки из слоя features: shared не имеет права импортировать их сам. */
+    actions?: ReactNode;
 }
 
-export const ProductCard: FC<ProductCardProps> = ({
-    product,
-    onAddCart,
-    onToggleFavorite,
-    isFavorite,
-}) => {
+export const ProductCard: FC<ProductCardProps> = ({ product, onAddCart, onToggleFavorite, isFavorite, actions }) => {
     const { view } = useUiStore();
     const isGrid = view === 'grid';
 
@@ -27,12 +24,7 @@ export const ProductCard: FC<ProductCardProps> = ({
             style={{ flexDirection: isGrid ? 'column' : 'row' }}
         >
             <div className="w-[200px] h-[200px] m-auto">
-                <img
-                    width="100%"
-                    height="100%"
-                    className="object-cover"
-                    src={product.images[0]}
-                />
+                <img width="100%" height="100%" className="object-cover" src={product.images[0]} />
             </div>
             <div className="flex flex-col gap-2 flex-1">
                 <div className="flex flex-col gap-2 flex-1">
@@ -51,18 +43,15 @@ export const ProductCard: FC<ProductCardProps> = ({
                     >
                         Добавить в корзину
                     </Button>
-                    <IconButton
-                        onClick={onToggleFavorite}
-                        className="relative z-10"
-                    >
-                        {isFavorite ? <IconHeartFilled /> : <IconHeart />}
-                    </IconButton>
+                    <div className="flex items-center">
+                        <IconButton onClick={onToggleFavorite} className="relative z-10">
+                            {isFavorite ? <IconHeartFilled /> : <IconHeart />}
+                        </IconButton>
+                        {actions}
+                    </div>
                 </div>
             </div>
-            <Link
-                className="absolute top-0 left-0 w-full h-full"
-                to={`/product/${product.id}`}
-            />
+            <Link className="absolute top-0 left-0 w-full h-full" to={`/product/${product.id}`} />
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import { useCartStore } from '@/entities/cart';
+import { ProductActions } from '@/features/product-actions';
 import { useGetProductsSingleQuery } from '@/shared/api/products';
 import { Spacing } from '@/shared/ui';
 import { Button, CircularProgress, Typography } from '@mui/material';
@@ -9,9 +10,7 @@ import { useParams } from 'react-router';
 export const ProductPage: FC = () => {
     const { addToCart } = useCartStore();
     const params = useParams<'id'>();
-    const { isLoading, data, isError } = useGetProductsSingleQuery(
-        Number(params.id),
-    );
+    const { isLoading, data, isError } = useGetProductsSingleQuery(Number(params.id));
 
     if (isLoading) {
         return (
@@ -44,13 +43,12 @@ export const ProductPage: FC = () => {
                 <Spacing spacing={2} />
                 <Typography variant="h5">{data.price}</Typography>
                 <Spacing spacing={3} />
-                <Button
-                    variant="contained"
-                    startIcon={<IconPlus size={18} />}
-                    onClick={() => addToCart(data)}
-                >
-                    Добавить в корзину
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button variant="contained" startIcon={<IconPlus size={18} />} onClick={() => addToCart(data)}>
+                        Добавить в корзину
+                    </Button>
+                    <ProductActions product={data} size={20} />
+                </div>
             </div>
         </div>
     );

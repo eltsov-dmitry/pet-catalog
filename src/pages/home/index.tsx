@@ -6,20 +6,14 @@ import { type FC } from 'react';
 import { HomePageFilters, HomePageList } from './ui';
 import { useFilters } from '@/entities/filters';
 import { useDebouncedValue } from '@/shared/lib/hooks';
+import { CreateProductButton } from '@/features/product-actions';
 
 export const HomePage: FC = () => {
     const { search, category } = useFilters();
     const searchDebounced = useDebouncedValue(search);
 
-    const {
-        isLoading,
-        isError,
-        products,
-        hasNextPage,
-        fetchNextPage,
-        isFetching,
-        isFetchingNextPage,
-    } = useGetProductsListInfiniteQuery({ search: searchDebounced, category });
+    const { isLoading, isError, products, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage } =
+        useGetProductsListInfiniteQuery({ search: searchDebounced, category });
 
     if (isLoading) {
         return (
@@ -39,6 +33,10 @@ export const HomePage: FC = () => {
 
     return (
         <div className="flex-1 flex flex-col">
+            <div className="flex justify-end">
+                <CreateProductButton />
+            </div>
+            <Spacing spacing={2} />
             <HomePageFilters />
             <Spacing spacing={4} />
             <HomePageList

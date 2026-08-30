@@ -2,6 +2,7 @@ import { useCartStore } from '@/entities/cart';
 import { useFavoriteStore } from '@/entities/favorite';
 import { useUiStore } from '@/entities/ui';
 import type { Product } from '@/shared/api/products';
+import { ProductActions } from '@/features/product-actions';
 import { InfiniteScroll, ProductCard, StateView } from '@/shared/ui/molecules';
 import { CircularProgress } from '@mui/material';
 import { type FC } from 'react';
@@ -13,12 +14,7 @@ interface HomePageListProps {
     fetchNextPage: VoidFunction;
 }
 
-export const HomePageList: FC<HomePageListProps> = ({
-    products,
-    isFetching,
-    hasNextPage,
-    fetchNextPage,
-}) => {
+export const HomePageList: FC<HomePageListProps> = ({ products, isFetching, hasNextPage, fetchNextPage }) => {
     const { view } = useUiStore();
     const { addToCart } = useCartStore();
     const { checkFavorite, toggleFavorite } = useFavoriteStore();
@@ -50,13 +46,11 @@ export const HomePageList: FC<HomePageListProps> = ({
                         onAddCart={() => addToCart(product)}
                         onToggleFavorite={() => toggleFavorite(product)}
                         isFavorite={checkFavorite(product.id)}
+                        actions={<ProductActions product={product} />}
                     />
                 ))}
             </div>
-            <InfiniteScroll
-                hasNextPage={hasNextPage}
-                fetchNextPage={fetchNextPage}
-            />
+            <InfiniteScroll hasNextPage={hasNextPage} fetchNextPage={fetchNextPage} />
         </div>
     );
 };

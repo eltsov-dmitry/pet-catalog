@@ -55,3 +55,7 @@ export interface ProductsResponse {
     skip: number;
     limit: number;
 }
+
+export type CreateProductDto = Partial<Omit<Product, 'id'>>;
+
+export type UpdateProductDto = { id: Product['id'] } & Partial<Omit<Product, 'id'>>;
