@@ -10,7 +10,6 @@ interface ProductActionsProps {
     size?: number;
 }
 
-/** Пара кнопок «редактировать» и «удалить» вместе со своими диалогами. */
 export const ProductActions: FC<ProductActionsProps> = ({ product, size = 18 }) => {
     const [openForm, setOpenForm] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);

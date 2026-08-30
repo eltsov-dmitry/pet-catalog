@@ -10,7 +10,7 @@ import { useEffect, useState, type FC, type FormEvent } from 'react';
 
 interface ProductFormDialogProps {
     open: boolean;
-    /** Передан — режим редактирования, нет — создание. */
+    /** есть товар - редактирование, нет - создание */
     product?: Product;
     onClose: VoidFunction;
 }
@@ -50,7 +50,7 @@ export const ProductFormDialog: FC<ProductFormDialogProps> = ({ open, product, o
     const [form, setForm] = useState<FormState>(() => toFormState(product));
     const [titleError, setTitleError] = useState('');
 
-    // Диалог не размонтируется между открытиями, поэтому поля синхронизируются с товаром вручную.
+    // диалог не размонтируется между открытиями
     useEffect(() => {
         if (open) {
             setForm(toFormState(product));
@@ -105,8 +105,7 @@ export const ProductFormDialog: FC<ProductFormDialogProps> = ({ open, product, o
         <Dialog open={open} onClose={isPending ? undefined : onClose} fullWidth maxWidth="sm">
             <form onSubmit={submit}>
                 <DialogTitle>{isEdit ? `Редактирование товара ${product.id}` : 'Новый товар'}</DialogTitle>
-                {/* Обёртка нужна из-за правила MUI: DialogContent сразу после DialogTitle
-                    получает padding-top: 0, и метка outlined-поля обрезается. */}
+                {/* MUI обнуляет padding-top после DialogTitle, метка поля обрезается */}
                 <DialogContent>
                     <div className="flex flex-col gap-4 pt-2">
                         <TextField

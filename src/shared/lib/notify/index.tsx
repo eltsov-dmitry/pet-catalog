@@ -19,8 +19,6 @@ export const NotifyProvider: FC<PropsWithChildren> = ({ children }) => {
         setNotice({ message, severity });
     }, []);
 
-    // Значение контекста мемоизируется: без этого каждый рендер провайдера
-    // перерисовывал бы всех потребителей.
     const value = useMemo(() => ({ notify }), [notify]);
 
     const close = () => setNotice(null);

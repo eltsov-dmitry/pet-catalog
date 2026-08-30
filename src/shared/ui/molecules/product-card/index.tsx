@@ -10,7 +10,7 @@ interface ProductCardProps {
     product: Product;
     onAddCart: VoidFunction;
     onToggleFavorite: VoidFunction;
-    /** Слот под кнопки из слоя features: shared не имеет права импортировать их сам. */
+    /** кнопки из features: shared их не импортирует */
     actions?: ReactNode;
 }
 
