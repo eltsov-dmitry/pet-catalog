@@ -29,9 +29,22 @@ const config: Configuration = {
         publicPath,
         clean: true,
     },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                framework: {
+                    test: /[\\/]node_modules[\\/](react|react-dom|scheduler|react-router)[\\/]/,
+                    name: 'framework',
+                    priority: 40,
+                },
+            },
+        },
+        runtimeChunk: 'single',
+    },
     performance: {
-        maxAssetSize: 600000,
-        maxEntrypointSize: 600000,
+        maxAssetSize: 300000,
+        maxEntrypointSize: 580000,
     },
     devServer: {
         historyApiFallback: true,
