@@ -2,11 +2,14 @@
   "version": "1.0.0",
   "description": "My webpack project",
   "name": "webpack-project",
+  "packageManager": "pnpm@11.24.0",
   "type": "module",
   "scripts": {
     "build": "webpack --mode=production --config-node-env=production",
-    "build:pages": "PUBLIC_PATH=/pet-catalog/ yarn build",
-    "dev": "webpack serve --mode=development"
+    "build:pages": "PUBLIC_PATH=/pet-catalog/ pnpm build",
+    "dev": "webpack serve --mode=development",
+    "preview": "node scripts/preview.mjs",
+    "size": "node scripts/size.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
