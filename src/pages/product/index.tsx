@@ -32,12 +32,14 @@ export const ProductPage: FC = () => {
     }
 
     return (
-        <div className="flex gap-8">
-            <div className="w-[600px]">
-                <img src={data.images[0]} />
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+            <div className="w-full lg:w-[520px] shrink-0">
+                <img className="w-full h-auto" src={data.images[0]} alt={data.title} />
             </div>
             <div className="flex-1">
-                <Typography variant="h1">{data.title}</Typography>
+                <Typography variant="h4" component="h1" className="lg:text-5xl">
+                    {data.title}
+                </Typography>
                 <Spacing spacing={1} />
                 <Typography variant="body1">{data.description}</Typography>
                 <Spacing spacing={2} />

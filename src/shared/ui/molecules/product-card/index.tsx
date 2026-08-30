@@ -19,12 +19,15 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onAddCart, onToggle
     const isGrid = view === 'grid';
 
     return (
-        <div
-            className="p-4 border rounded-[8px] relative flex gap-4"
-            style={{ flexDirection: isGrid ? 'column' : 'row' }}
-        >
-            <div className="w-[200px] h-[200px] m-auto">
-                <img width="100%" height="100%" className="object-cover" src={product.images[0]} />
+        <div className={`p-4 border rounded-[8px] relative flex gap-4 ${isGrid ? 'flex-col' : 'flex-row'}`}>
+            <div
+                className={
+                    isGrid
+                        ? 'w-full max-w-[200px] aspect-square m-auto'
+                        : 'w-[96px] sm:w-[160px] shrink-0 aspect-square'
+                }
+            >
+                <img className="w-full h-full object-cover" src={product.images[0]} alt={product.title} />
             </div>
             <div className="flex flex-col gap-2 flex-1">
                 <div className="flex flex-col gap-2 flex-1">

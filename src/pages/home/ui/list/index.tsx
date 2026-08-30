@@ -34,10 +34,7 @@ export const HomePageList: FC<HomePageListProps> = ({ products, isFetching, hasN
     return (
         <div>
             <div
-                className="grid gap-4"
-                style={{
-                    gridTemplateColumns: `repeat(${view === 'grid' ? 3 : 1}, minmax(0, 1fr))`,
-                }}
+                className={`grid gap-4 ${view === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
             >
                 {products.map((product) => (
                     <ProductCard

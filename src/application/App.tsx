@@ -10,7 +10,7 @@ const App: FC = () => {
         <WithTheme>
             <WithStore>
                 <NotifyProvider>
-                    <div className="px-4 max-w-[1024px] m-auto min-h-screen flex flex-col">
+                    <div className="px-3 sm:px-4 max-w-[1024px] m-auto min-h-screen flex flex-col">
                         <HeaderWidget />
                         <Outlet />
                     </div>
