@@ -4,7 +4,7 @@ import { cartActions } from '@/entities/cart';
 import type { RootState } from './store';
 import { storage } from '@/shared/lib/storage';
 import { STORAGE_KEYS } from '@/shared/config';
-import { uiActions } from '@/entities/ui/ui.slice';
+import { uiActions } from '@/entities/ui';
 
 export const persistListener = createListenerMiddleware();
 

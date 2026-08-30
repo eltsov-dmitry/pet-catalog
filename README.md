@@ -17,6 +17,8 @@ pnpm dev        # http://localhost:8080
 Прод-сборка и замеры:
 
 ```bash
+pnpm test       # юнит-тесты состояния
+pnpm typecheck  # проверка типов
 pnpm build      # сборка в dist
 pnpm preview    # раздача dist со сжатием, как на хостинге
 pnpm size       # размеры чанков: сырой, gzip, brotli
@@ -54,6 +56,11 @@ React 19.2, TypeScript 6.0, Redux Toolkit 2.12 с RTK Query, react-redux 9.3, re
 по `LIST`, обновление - по конкретному id, удаление - по обоим. Замерил цену такой точности:
 при инвалидации одного товара `infiniteQuery` перезапрашивает **все** загруженные страницы, не одну.
 Для трёх подгруженных страниц это три запроса.
+
+**Тесты на состояние.** Vitest с jsdom: слайсы корзины, избранного и режима отображения,
+[персист](src/application/store/persist.test.ts) на реальном сторе с listener-middleware,
+[обёртка над localStorage](src/shared/lib/storage/storage.test.ts) на битый JSON и переполнение.
+Шестнадцать тестов, запускаются за полсекунды.
 
 **Персист без redux-persist.** Корзина, избранное и режим отображения переживают перезагрузку через
 [`createListenerMiddleware`](src/application/store/persist.ts): слушатель ловит нужные экшены по
@@ -113,5 +120,5 @@ webpack в предупреждениях о бюджете считает сы�
 
 ## Что дальше
 
-- Тесты на слайсы и на persist-слушатель.
+- Тесты на компоненты и сценарии в браузере: сейчас покрыто только состояние.
 - Оптимистичные обновления через `onQueryStarted` и `updateQueryData`.
