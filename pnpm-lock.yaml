@@ -69,9 +69,6 @@ importers:
       autoprefixer:
         specifier: ^10.5.0
         version: 10.5.0(postcss@8.5.15)
-      browserslist:
-        specifier: latest
-        version: 4.28.8
       css-loader:
         specifier: ^7.1.4
         version: 7.1.4(webpack@5.107.2)
