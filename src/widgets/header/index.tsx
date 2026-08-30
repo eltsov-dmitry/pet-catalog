@@ -27,7 +27,7 @@ export const HeaderWidget: FC = () => {
                 <Link to="/" className="text-shadow-blue-600">
                     LOGO
                 </Link>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2">
                     <IconButton href="/favorites">
                         <IconHeart />
                     </IconButton>
@@ -42,7 +42,7 @@ export const HeaderWidget: FC = () => {
                     </Button>
                     {cartAnchor && (
                         <Suspense fallback={null}>
-                            <HeaderCart open={openCart} anchorEl={cartAnchor} />
+                            <HeaderCart open={openCart} anchorEl={cartAnchor} onClose={() => setOpenCart(false)} />
                         </Suspense>
                     )}
                     <ToggleButtonGroup
