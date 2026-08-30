@@ -2,12 +2,7 @@ import { useFilters } from '@/entities/filters';
 import { useUiStore } from '@/entities/ui';
 import { useGetProductsCategoryListQuery } from '@/shared/api/products';
 import { Spacing } from '@/shared/ui';
-import {
-    Chip,
-    TextField,
-    ToggleButton,
-    ToggleButtonGroup,
-} from '@mui/material';
+import { Chip, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { IconGridDots, IconList, IconSearch } from '@tabler/icons-react';
 import { type FC } from 'react';
 
@@ -37,11 +32,7 @@ export const HomePageFilters: FC = () => {
                         key={categoryItem}
                         label={categoryItem}
                         onClick={() => setCategory(categoryItem)}
-                        onDelete={
-                            category === categoryItem
-                                ? resetCategory
-                                : undefined
-                        }
+                        onDelete={category === categoryItem ? resetCategory : undefined}
                     />
                 ))}
             </div>

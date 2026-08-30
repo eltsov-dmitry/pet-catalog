@@ -9,12 +9,7 @@ import {
     ToggleButtonGroup,
     useColorScheme,
 } from '@mui/material';
-import {
-    IconGardenCart,
-    IconHeart,
-    IconMoonFilled,
-    IconSunHighFilled,
-} from '@tabler/icons-react';
+import { IconGardenCart, IconHeart, IconMoonFilled, IconSunHighFilled } from '@tabler/icons-react';
 import { useRef, useState, type FC } from 'react';
 import { Link } from 'react-router';
 
@@ -59,10 +54,7 @@ export const HeaderWidget: FC = () => {
                             <Grow
                                 {...TransitionProps}
                                 style={{
-                                    transformOrigin:
-                                        placement === 'bottom-end'
-                                            ? 'right top'
-                                            : 'right bottom',
+                                    transformOrigin: placement === 'bottom-end' ? 'right top' : 'right bottom',
                                 }}
                             >
                                 <Paper>

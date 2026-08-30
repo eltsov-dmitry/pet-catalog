@@ -8,11 +8,7 @@ interface InfiniteScrollProps {
     rootMargin?: string;
 }
 
-export const InfiniteScroll: FC<InfiniteScrollProps> = ({
-    fetchNextPage,
-    hasNextPage,
-    rootMargin = '200px',
-}) => {
+export const InfiniteScroll: FC<InfiniteScrollProps> = ({ fetchNextPage, hasNextPage, rootMargin = '200px' }) => {
     const { ref, inView } = useInView({ rootMargin });
 
     useEffect(() => {
@@ -22,10 +18,7 @@ export const InfiniteScroll: FC<InfiniteScrollProps> = ({
     }, [inView, hasNextPage, fetchNextPage]);
 
     return (
-        <div
-            className="flex flex-col items-center justify-center p-8"
-            ref={ref}
-        >
+        <div className="flex flex-col items-center justify-center p-8" ref={ref}>
             {hasNextPage && <CircularProgress />}
         </div>
     );

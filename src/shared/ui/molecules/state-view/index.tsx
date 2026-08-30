@@ -8,18 +8,12 @@ interface StateViewProps {
     description?: ReactNode;
 }
 
-export const StateView: FC<StateViewProps> = ({
-    icon = <IconInfoCircle size={48} />,
-    title,
-    description,
-}) => {
+export const StateView: FC<StateViewProps> = ({ icon = <IconInfoCircle size={48} />, title, description }) => {
     return (
         <div className="flex flex-1 flex-col gap-1 justify-center items-center">
             {icon}
             <Typography variant="h4">{title}</Typography>
-            {description && (
-                <Typography variant="body1">{description}</Typography>
-            )}
+            {description && <Typography variant="body1">{description}</Typography>}
         </div>
     );
 };

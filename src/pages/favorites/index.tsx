@@ -21,27 +21,13 @@ export const FavoritesPage: FC = () => {
     return (
         <div className="flex flex-col gap-4">
             {favoriteItems.map((favorite) => (
-                <div
-                    key={favorite.id}
-                    className="relative flex gap-4 border-[0.5px] items-center rounded-[8px] px-4"
-                >
-                    <img
-                        src={favorite.images[0]}
-                        width={48}
-                        height={48}
-                        className="object-cover"
-                    />
+                <div key={favorite.id} className="relative flex gap-4 border-[0.5px] items-center rounded-[8px] px-4">
+                    <img src={favorite.images[0]} width={48} height={48} className="object-cover" />
                     <Typography className="flex-1">{favorite.title}</Typography>
-                    <IconButton
-                        className="relative z-10"
-                        onClick={() => removeFromFavoriteById(favorite.id)}
-                    >
+                    <IconButton className="relative z-10" onClick={() => removeFromFavoriteById(favorite.id)}>
                         <IconHeartCancel size={18} />
                     </IconButton>
-                    <Link
-                        to={`/product/${favorite.id}`}
-                        className="absolute top-0 left-0 w-full h-full"
-                    />
+                    <Link to={`/product/${favorite.id}`} className="absolute top-0 left-0 w-full h-full" />
                 </div>
             ))}
         </div>

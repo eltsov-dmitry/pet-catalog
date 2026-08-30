@@ -6,10 +6,7 @@ export const useFavoriteStore = () => {
     const favoriteItems = useAppSelector(selectFavoriteItems);
     const actions = useFavoriteActions();
 
-    const checkFavorite = useCallback(
-        (id: number) => favoriteItems.some((item) => item.id === id),
-        [favoriteItems],
-    );
+    const checkFavorite = useCallback((id: number) => favoriteItems.some((item) => item.id === id), [favoriteItems]);
 
     return { favoriteItems, checkFavorite, ...actions };
 };

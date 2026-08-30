@@ -1,25 +1,25 @@
-import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import { defineConfig } from "eslint/config";
-import importPlugin from "eslint-plugin-import";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import pluginReact from 'eslint-plugin-react';
+import { defineConfig } from 'eslint/config';
+import importPlugin from 'eslint-plugin-import';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
     {
-        files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+        files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
         plugins: { js },
-        extends: ["js/recommended"],
+        extends: ['js/recommended'],
         languageOptions: { globals: globals.browser },
     },
     tseslint.configs.recommended,
     pluginReact.configs.flat.recommended,
-    pluginReact.configs.flat["jsx-runtime"],
+    pluginReact.configs.flat['jsx-runtime'],
     {
         plugins: { import: importPlugin },
         rules: {
-            "import/newline-after-import": ["error", { count: 1 }],
+            'import/newline-after-import': ['error', { count: 1 }],
         },
     },
     eslintPluginPrettierRecommended,

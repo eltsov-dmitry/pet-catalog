@@ -7,21 +7,13 @@ export type SpacingProps = HTMLAttributes<HTMLDivElement> & {
     spacing: number;
 };
 
-export const Spacing: FC<SpacingProps> = ({
-    spacing,
-    className,
-    style = {},
-    ...otherProps
-}) => {
+export const Spacing: FC<SpacingProps> = ({ spacing, className, style = {}, ...otherProps }) => {
     const theme = useTheme();
     const spacingSize = theme.spacing(spacing);
 
     return (
         <div
-            className={classNames(
-                className,
-                'relative box-border pt-(--spacing-size)',
-            )}
+            className={classNames(className, 'relative box-border pt-(--spacing-size)')}
             style={{ '--spacing-size': spacingSize, ...style }}
             {...otherProps}
         />

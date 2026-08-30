@@ -11,9 +11,7 @@ const __dirname = path.dirname(__filename);
 const isProduction = process.env.NODE_ENV === 'production';
 const { EnvironmentPlugin } = webpack;
 
-const stylesHandler = isProduction
-    ? MiniCssExtractPlugin.loader
-    : 'style-loader';
+const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
 /** @type {import("webpack").Configuration} */
 const config: Configuration = {

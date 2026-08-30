@@ -1,7 +1,4 @@
-import {
-    Link as RouterLink,
-    type LinkProps as RouterLinkProps,
-} from 'react-router';
+import { Link as RouterLink, type LinkProps as RouterLinkProps } from 'react-router';
 import type { Ref } from 'react';
 
 type LinkBehaviorProps = Omit<RouterLinkProps, 'to'> & {

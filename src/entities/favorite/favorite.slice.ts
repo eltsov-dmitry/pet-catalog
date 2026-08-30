@@ -13,14 +13,10 @@ const favoriteSlice = createSlice({
     initialState,
     reducers: {
         removeFromFavoriteById: (state, action: PayloadAction<number>) => {
-            state.favoriteItems = state.favoriteItems.filter(
-                ({ id }) => id !== action.payload,
-            );
+            state.favoriteItems = state.favoriteItems.filter(({ id }) => id !== action.payload);
         },
         toggleFavorite: (state, action: PayloadAction<Product>) => {
-            const favoriteIndex = state.favoriteItems.findIndex(
-                ({ id }) => id === action.payload.id,
-            );
+            const favoriteIndex = state.favoriteItems.findIndex(({ id }) => id === action.payload.id);
             if (favoriteIndex === -1) {
                 state.favoriteItems.push(action.payload);
             } else {
@@ -34,5 +30,4 @@ export const favoriteActions = favoriteSlice.actions;
 export const favoriteReducer = favoriteSlice.reducer;
 export const useFavoriteActions = createActionsHook(favoriteSlice.actions);
 
-export const selectFavoriteItems = (state: RootState) =>
-    state.favorite.favoriteItems;
+export const selectFavoriteItems = (state: RootState) => state.favorite.favoriteItems;
