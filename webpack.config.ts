@@ -5,6 +5,7 @@ import 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,6 +17,8 @@ const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader
 // На Pages сайт лежит в подкаталоге. 'auto' не годится: на /product/12 путь станет /product/main.js
 const publicPath = process.env.PUBLIC_PATH ?? '/';
 
+const isAnalyze = process.env.ANALYZE === 'true';
+
 /** @type {import("webpack").Configuration} */
 const config: Configuration = {
     entry: './src/index.tsx',
@@ -25,6 +28,10 @@ const config: Configuration = {
         filename: isProduction ? '[name].[contenthash].js' : '[name].js',
         publicPath,
         clean: true,
+    },
+    performance: {
+        maxAssetSize: 600000,
+        maxEntrypointSize: 600000,
     },
     devServer: {
         historyApiFallback: true,
@@ -41,6 +48,18 @@ const config: Configuration = {
         new CopyPlugin({
             patterns: [{ from: 'public', to: '.' }],
         }),
+        ...(isAnalyze
+            ? [
+                  new BundleAnalyzerPlugin({
+                      analyzerMode: 'static',
+                      // вне dist: её чистит clean
+                      reportFilename: path.resolve(__dirname, 'reports/bundle-report.html'),
+                      // иначе показывает parsed
+                      defaultSizes: 'gzip',
+                      openAnalyzer: false,
+                  }),
+              ]
+            : []),
     ],
     module: {
         rules: [
