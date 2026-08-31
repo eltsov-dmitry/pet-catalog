@@ -3,6 +3,7 @@
   "description": "Учебный каталог товаров: React 19, Redux Toolkit с RTK Query, FSD, сборка на Webpack с нуля.",
   "name": "pet-catalog",
   "packageManager": "pnpm@11.24.0",
+  "license": "MIT",
   "type": "module",
   "browserslist": [
     "baseline widely available"
