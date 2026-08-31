@@ -57,6 +57,13 @@ const config: Configuration = {
             template: 'index.html',
             templateParameters: { publicPath },
         }),
+        // Копия index.html: GitHub Pages отдаёт 404.html на неизвестный путь,
+        // а SPA-маршруты вроде /favorites файлами не существуют
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+            filename: '404.html',
+            templateParameters: { publicPath },
+        }),
         ...(isProduction ? [new MiniCssExtractPlugin()] : []),
         new CopyPlugin({
             patterns: [{ from: 'public', to: '.' }],
