@@ -1,5 +1,7 @@
 # pet-catalog
 
+**Демо: https://eltsov-dmitry.github.io/pet-catalog/**
+
 Каталог товаров: React 19, Redux Toolkit с RTK Query, Feature-Sliced Design, сборка на Webpack,
 собранном с нуля. Данные берутся из открытого [dummyjson](https://dummyjson.com).
 
