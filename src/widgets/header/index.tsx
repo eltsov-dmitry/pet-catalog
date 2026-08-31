@@ -2,6 +2,7 @@ import { Button, IconButton, ToggleButton, ToggleButtonGroup, useColorScheme } f
 import { IconGardenCart, IconHeart, IconMoonFilled, IconSunHighFilled } from '@tabler/icons-react';
 import { lazy, Suspense, useState, type FC, type MouseEvent } from 'react';
 import { Link } from 'react-router';
+import { useCartStore } from '@/entities/cart';
 
 const HeaderCart = lazy(() => import('./ui/header-cart'));
 
@@ -11,6 +12,7 @@ const preloadCart = () => {
 
 export const HeaderWidget: FC = () => {
     const { setMode, colorScheme } = useColorScheme();
+    const { count } = useCartStore();
 
     // Якорь заодно работает признаком «корзину открывали»: до первого клика попапа нет в дереве
     const [cartAnchor, setCartAnchor] = useState<HTMLButtonElement | null>(null);
@@ -38,7 +40,7 @@ export const HeaderWidget: FC = () => {
                         onMouseEnter={preloadCart}
                         onFocus={preloadCart}
                     >
-                        Корзина
+                        Корзина{count > 0 ? ` (${count})` : ''}
                     </Button>
                     {cartAnchor && (
                         <Suspense fallback={null}>

@@ -11,10 +11,31 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action: PayloadAction<Product>) => {
-            state.cartItems.push(action.payload);
+            const item = state.cartItems.find(({ product }) => product.id === action.payload.id);
+
+            if (item) {
+                item.quantity += 1;
+                return;
+            }
+
+            state.cartItems.push({ product: action.payload, quantity: 1 });
+        },
+        decreaseQuantity: (state, action: PayloadAction<number>) => {
+            const item = state.cartItems.find(({ product }) => product.id === action.payload);
+
+            if (!item) {
+                return;
+            }
+
+            if (item.quantity > 1) {
+                item.quantity -= 1;
+                return;
+            }
+
+            state.cartItems = state.cartItems.filter(({ product }) => product.id !== action.payload);
         },
         removeFromCartById: (state, action: PayloadAction<number>) => {
-            state.cartItems = state.cartItems.filter(({ id }) => id !== action.payload);
+            state.cartItems = state.cartItems.filter(({ product }) => product.id !== action.payload);
         },
     },
 });

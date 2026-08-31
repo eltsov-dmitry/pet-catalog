@@ -44,7 +44,7 @@ test('сохранённая корзина читается обратно', as
 
     await vi.waitFor(() => expect(localStorage.getItem(STORAGE_KEYS.cart)).not.toBeNull());
 
-    expect(loadCartState().cartItems.map(({ title }) => title)).toEqual(['Стул']);
+    expect(loadCartState().cartItems.map(({ product }) => product.title)).toEqual(['Стул']);
 });
 
 test('пустое хранилище даёт пустую корзину', () => {
