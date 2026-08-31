@@ -29,8 +29,6 @@ export const HomePageList: FC<HomePageListProps> = ({ products, isFetching, hasN
         );
     }
 
-    // Список не размонтируется на время обновления: иначе высота страницы схлопывается
-    // и браузер теряет позицию прокрутки
     return (
         <div className="relative">
             {isFetching && <LinearProgress className="absolute top-0 left-0 w-full" />}

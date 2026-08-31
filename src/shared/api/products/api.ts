@@ -1,14 +1,11 @@
 import { baseApi } from '@/shared/api/baseApi';
 import type { CreateProductDto, Product, ProductsResponse, UpdateProductDto } from './types';
 import { useMemo } from 'react';
-import type { TagDescription } from '@reduxjs/toolkit/query';
 
 interface ProductListParams {
     search: string;
     category: string;
 }
-
-type ProductTag = TagDescription<'Products'>;
 
 export const productsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
