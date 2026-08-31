@@ -52,6 +52,7 @@ const config: Configuration = {
     plugins: [
         new EnvironmentPlugin({
             API_URL: 'https://dummyjson.com',
+            PUBLIC_PATH: publicPath,
         }),
         new HtmlWebpackPlugin({
             template: 'index.html',
