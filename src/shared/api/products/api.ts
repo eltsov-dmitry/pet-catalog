@@ -37,19 +37,7 @@ export const productsApi = baseApi.injectEndpoints({
 
                 return `products?${params.toString()}`;
             },
-            providesTags: (data) => {
-                const tags: ProductTag[] =
-                    data?.pages
-                        ?.flatMap((page) => page.products)
-                        .map((product) => ({
-                            type: 'Products',
-                            id: product.id,
-                        })) ?? [];
-
-                tags.push({ type: 'Products', id: 'LIST' });
-
-                return tags;
-            },
+            providesTags: [{ type: 'Products', id: 'LIST' }],
         }),
         getProductsSingle: builder.query<Product, number>({
             query: (id) => `products/${id}`,
@@ -73,6 +61,33 @@ export const productsApi = baseApi.injectEndpoints({
                 body,
             }),
             invalidatesTags: (_data, _error, body) => [{ type: 'Products', id: body.id }],
+            // Списки правим вручную: инвалидация тега заставила бы infiniteQuery
+            // перезапросить все загруженные страницы ради одного изменившегося товара
+            async onQueryStarted({ id, ...patch }, { dispatch, getState, queryFulfilled }) {
+                const cachedArgs = productsApi.util.selectCachedArgsForQuery(getState(), 'getProductsList');
+
+                const patches = cachedArgs.map((args) =>
+                    dispatch(
+                        productsApi.util.updateQueryData('getProductsList', args, (draft) => {
+                            for (const page of draft.pages) {
+                                const product = page.products.find((item) => item.id === id);
+
+                                if (product) {
+                                    Object.assign(product, patch);
+                                }
+                            }
+                        }),
+                    ),
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch {
+                    for (const patchResult of patches) {
+                        patchResult.undo();
+                    }
+                }
+            },
         }),
         deleteProduct: builder.mutation<Product, number>({
             query: (id) => ({
